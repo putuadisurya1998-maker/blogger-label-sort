@@ -29,15 +29,20 @@ document.addEventListener("DOMContentLoaded", function () {
           container.innerHTML = "";
           allPosts.forEach(post => {
             container.innerHTML +=
-              '<div class="post bar hentry" style="display:flex;align-items:flex-start;margin-bottom:15px;">' +
-                '<a href="' + post.url + '" style="margin-right:10px;">' +
-                  '<img src="' + post.thumbnail + '" style="width:120px;height:auto;border-radius:6px;object-fit:cover;" />' +
-                '</a>' +
-                '<h2 class="post-title entry-title" style="margin:0;">' +
-                  '<a href="' + post.url + '">' + post.title + '</a>' +
-                '</h2>' +
-              '</div>';
-          });
+              posts.forEach(post => {
+  container.innerHTML +=
+    '<article class="post bar hentry" style="display:flex;align-items:flex-start;gap:15px;margin-bottom:20px;padding-bottom:10px;border-bottom:1px solid #ddd;">' +
+      '<a href="' + post.url + '" style="flex-shrink:0;">' +
+        '<img src="' + post.thumbnail + '" style="width:180px;height:auto;border-radius:8px;object-fit:cover;display:block;" />' +
+      '</a>' +
+      '<div style="flex:1;">' +
+        '<h2 class="post-title entry-title" style="margin:0 0 5px 0;font-size:1.2em;line-height:1.3;">' +
+          '<a href="' + post.url + '" style="text-decoration:none;color:inherit;">' + post.title + '</a>' +
+        '</h2>' +
+      '</div>' +
+    '</article>';
+});
+
         } else {
           container.innerHTML = "<p>Tidak ada posting ditemukan.</p>";
         }
