@@ -46,7 +46,7 @@ document.addEventListener("DOMContentLoaded", function() {
         container.innerHTML += ''
           + '<article class="post bar hentry" style="display:flex;align-items:flex-start;gap:15px;margin-bottom:20px;padding-bottom:10px;border-bottom:1px solid #ddd;">'
           +   '<a href="' + post.link + '" style="flex-shrink:0;">'
-          +     '<img src="' + post.thumb + '" style="width:180px;height:auto;border-radius:8px;object-fit:cover;display:block;" />'
+          +     '<img src="' + post.thumb + '" style="width:145px;height:180px;border-radius:8px;object-fit:cover;display:block;" />'
           +   '</a>'
           +   '<div style="flex:1;">'
           +     '<h2 class="post-title entry-title" style="margin:0 0 5px 0;font-size:1.2em;line-height:1.3;">'
