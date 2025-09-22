@@ -27,25 +27,17 @@ document.addEventListener("DOMContentLoaded", function () {
           if (pager) pager.remove();
 
           container.innerHTML = "";
-         allPosts.forEach(post => {
-  container.innerHTML +=
-    '<div class="post-outer">' +
-      '<article class="post hentry">' +
-        '<header class="post-header">' +
-          '<h2 class="post-title entry-title">' +
-            '<a href="' + post.url + '">' + post.title + '</a>' +
-          '</h2>' +
-        '</header>' +
-        '<div class="post-body entry-content">' +
-          '<div class="post-thumbnail"><a href="' + post.url + '">' +
-            '<img src="' + post.thumbnail + '" />' +
-          '</a></div>' +
-          '<div class="post-excerpt">' + post.excerpt + '</div>' +
-        '</div>' +
-      '</article>' +
-    '</div>';
-});
-
+          allPosts.forEach(post => {
+            container.innerHTML +=
+              '<div class="post bar hentry" style="display:flex;align-items:flex-start;margin-bottom:15px;">' +
+                '<a href="' + post.url + '" style="margin-right:10px;">' +
+                  '<img src="' + post.thumbnail + '" style="width:120px;height:auto;border-radius:6px;object-fit:cover;" />' +
+                '</a>' +
+                '<h2 class="post-title entry-title" style="margin:0;">' +
+                  '<a href="' + post.url + '">' + post.title + '</a>' +
+                '</h2>' +
+              '</div>';
+          });
         } else {
           container.innerHTML = "<p>Tidak ada posting ditemukan.</p>";
         }
