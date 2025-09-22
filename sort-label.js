@@ -28,7 +28,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
           container.innerHTML = "";
           allPosts.forEach(post => {
-            container.innerHTML +=
+           container.innerHTML +=
   '<article class="post bar hentry" style="display:flex;align-items:flex-start;gap:15px;margin-bottom:20px;padding-bottom:10px;border-bottom:1px solid #ddd;">' +
     '<a href="' + post.url + '" style="flex-shrink:0;">' +
       '<img src="' + post.thumbnail + '" style="width:180px;height:auto;border-radius:8px;object-fit:cover;display:block;" />' +
@@ -39,7 +39,6 @@ document.addEventListener("DOMContentLoaded", function () {
       '</h2>' +
     '</div>' +
   '</article>';
-
           });
         } else {
           container.innerHTML = "<p>Tidak ada posting ditemukan.</p>";
