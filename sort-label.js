@@ -28,16 +28,15 @@ document.addEventListener("DOMContentLoaded", function () {
 
           container.innerHTML = "";
           allPosts.forEach(post => {
-            container.innerHTML +=
-              '<div class="post bar hentry" style="display:flex;align-items:flex-start;margin-bottom:15px;">' +
-                '<a href="' + post.url + '" style="margin-right:10px;">' +
-                  '<img src="' + post.thumbnail + '" style="width:120px;height:auto;border-radius:6px;object-fit:cover;" />' +
-                '</a>' +
-                '<h2 class="post-title entry-title" style="margin:0;">' +
-                  '<a href="' + post.url + '">' + post.title + '</a>' +
-                '</h2>' +
-              '</div>';
-          });
+  container.innerHTML +=
+    '<div class="post bar hentry">' +
+      '<h2 class="post-title entry-title"><a href="' + post.url + '">' + post.title + '</a></h2>' +
+      '<div class="post-body entry-content">' +
+        '<img src="' + post.thumbnail + '" class="post-thumbnail" />' +
+      '</div>' +
+    '</div>';
+});
+
         } else {
           container.innerHTML = "<p>Tidak ada posting ditemukan.</p>";
         }
