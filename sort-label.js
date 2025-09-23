@@ -1,59 +1,35 @@
 document.addEventListener("DOMContentLoaded", function () {
   if (window.location.href.includes("/search/label/")) {
 
-    let label = decodeURIComponent(window.location.href.split("/search/label/")[1].split("?")[0]);
-
+    // Pilih container utama postingan
     let container = document.querySelector("#main") || document.querySelector("#content") || document.querySelector("#Blog1");
     if (!container) return;
 
-    container.innerHTML = "<p>Memuat semua posting...</p>";
+    // Ambil semua elemen postingan saat ini
+    let posts = Array.from(container.querySelectorAll(".post"));
 
-    let allPosts = [];
-    let startIndex = 1;
-
-    function fetchPosts() {
-      let base = "/feeds/posts/default/-/" + encodeURIComponent(label);
-
-      // Rakit query string tanpa & di template
-      let params = "?alt=json-in-script";
-      params += String.fromCharCode(38) + "max-results=150";
-      params += String.fromCharCode(38) + "start-index=" + startIndex;
-      params += String.fromCharCode(38) + "callback=handleData";
-
-      let script = document.createElement("script");
-      script.src = base + params;
-      document.body.appendChild(script);
+    if (posts.length === 0) {
+      container.innerHTML = "<p>Memuat semua posting...</p>";
+      // Jika container kosong, script lama untuk fetch feed bisa ditambahkan di sini
+      return;
     }
 
-    window.handleData = function (data) {
-      if (!data.feed.entry) {
-        if (allPosts.length > 0) {
-          allPosts.sort((a, b) => a.title.localeCompare(b.title));
+    // Simpan judul dan elemen postingan
+    let postArray = posts.map(post => {
+      let titleEl = post.querySelector(".post-title") || post.querySelector("h2 a");
+      let title = titleEl ? titleEl.textContent.trim() : "";
+      return { title: title, element: post };
+    });
 
-          let pager = document.querySelector(".blog-pager");
-          if (pager) pager.remove();
+    // Urutkan A → Z
+    postArray.sort((a, b) => a.title.localeCompare(b.title));
 
-          container.innerHTML = "";
-          allPosts.forEach(post => {
-            container.innerHTML += post.html; // HTML asli postingan
-          });
-        } else {
-          container.innerHTML = "<p>Tidak ada posting ditemukan.</p>";
-        }
-        return;
-      }
+    // Kosongkan container
+    container.innerHTML = "";
 
-      data.feed.entry.forEach(entry => {
-        allPosts.push({
-          title: entry.title.$t,
-          html: entry.content.$t
-        });
-      });
-
-      startIndex += 150;
-      fetchPosts();
-    };
-
-    fetchPosts();
+    // Masukkan kembali postingan sesuai urutan
+    postArray.forEach(postObj => {
+      container.appendChild(postObj.element);
+    });
   }
 });
