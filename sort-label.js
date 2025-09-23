@@ -28,7 +28,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
           container.innerHTML = "";
           allPosts.forEach(post => {
-            container.innerHTML +=post.html
+            container.innerHTML +=
               '<div class="post bar hentry" style="display:flex;align-items:flex-start;margin-bottom:15px;">' +
                 '<a href="' + post.url + '" style="margin-right:10px;">' +
                   '<img src="' + post.thumbnail + '" style="width:120px;height:auto;border-radius:6px;object-fit:cover;" />' +
