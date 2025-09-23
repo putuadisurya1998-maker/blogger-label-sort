@@ -1,7 +1,11 @@
 document.addEventListener("DOMContentLoaded", function () {
+  // Cek halaman label
   if (window.location.href.includes("/search/label/")) {
+
+    // Ambil nama label dari URL
     let label = decodeURIComponent(window.location.href.split("/search/label/")[1].split("?")[0]);
 
+    // Pilih container utama postingan
     let container = document.querySelector("#main") || document.querySelector("#content") || document.querySelector("#Blog1");
     if (!container) return;
 
@@ -10,6 +14,7 @@ document.addEventListener("DOMContentLoaded", function () {
     let allPosts = [];
     let startIndex = 1;
 
+    // Fungsi ambil feed postingan
     function fetchPosts() {
       let base = "/feeds/posts/default/-/" + encodeURIComponent(label);
       let params = "?alt=json-in-script&max-results=150&start-index=" + startIndex + "&callback=handleData";
@@ -18,25 +23,23 @@ document.addEventListener("DOMContentLoaded", function () {
       document.body.appendChild(script);
     }
 
+    // Callback saat feed diterima
     window.handleData = function (data) {
       if (!data.feed.entry) {
         if (allPosts.length > 0) {
+          // Urutkan A → Z berdasarkan judul
           allPosts.sort((a, b) => a.title.localeCompare(b.title));
 
+          // Hapus pager default
           let pager = document.querySelector(".blog-pager");
           if (pager) pager.remove();
 
+          // Kosongkan container
           container.innerHTML = "";
+
+          // Masukkan HTML asli postingan ke container
           allPosts.forEach(post => {
-            container.innerHTML +=
-              '<div class="post bar hentry" style="display:flex;align-items:flex-start;margin-bottom:15px;">' +
-                '<a href="' + post.url + '" style="margin-right:10px;">' +
-                  '<img src="' + post.thumbnail + '" style="width:120px;height:auto;border-radius:6px;object-fit:cover;" />' +
-                '</a>' +
-                '<h2 class="post-title entry-title" style="margin:0;">' +
-                  '<a href="' + post.url + '">' + post.title + '</a>' +
-                '</h2>' +
-              '</div>';
+            container.innerHTML += post.html;
           });
         } else {
           container.innerHTML = "<p>Tidak ada posting ditemukan.</p>";
@@ -44,18 +47,11 @@ document.addEventListener("DOMContentLoaded", function () {
         return;
       }
 
+      // Simpan setiap postingan ke array
       data.feed.entry.forEach(entry => {
-        let thumbnail = "https://via.placeholder.com/120x80?text=No+Image";
-        if (entry.media$thumbnail) {
-          thumbnail = entry.media$thumbnail.url;
-        } else if (entry.content && entry.content.$t.match(/<img.*?src=\"(.*?)\"/)) {
-          thumbnail = entry.content.$t.match(/<img.*?src=\"(.*?)\"/)[1];
-        }
-
         allPosts.push({
           title: entry.title.$t,
-          url: entry.link.find(l => l.rel === "alternate").href,
-          thumbnail: thumbnail
+          html: entry.content.$t  // HTML asli postingan
         });
       });
 
@@ -63,6 +59,7 @@ document.addEventListener("DOMContentLoaded", function () {
       fetchPosts();
     };
 
+    // Ambil postingan pertama
     fetchPosts();
   }
 });
